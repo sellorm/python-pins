@@ -2,7 +2,10 @@
 
 A simple package to pin and retrieve pinned data from RStudio Connect.
 
-Read more about pins on the [offical R implementations's website](https://pinds.rstudio.com)
+Read more about pins on the [offical R implementations's website](https://pins.rstudio.com)
+
+This project is **not affiliated** with RStudio.
+
 
 ## Available functions
 
@@ -14,7 +17,7 @@ pin_rsconnect()
   
 Parameters:
 
-* data: any object that has a to_json method
+* data: any object that has a to_json method (eg. pandas DataFrame)
 * pin_name (str): name of pin, only alphanumeric and underscores
 * pretty_pin_name (str): display name of pin
 * connect_server (str): RStudio Connect server address e.g. https://connect.example.com/
@@ -28,7 +31,7 @@ Returns:
 ### Get data from a python pin on RStudio Connect
 
 ```
-def pin_get_rsconnect(url):
+pin_get_rsconnect(url):
 ```
 
 Parameters:
@@ -43,14 +46,23 @@ Returns:
 ## Try it out
 
 ```
-pin = pin_rsconnect(
+import panads
+import pins
+
+mydata = {'col1': [1, 2], 'col2': [3, 4]}
+df = pd.DataFrame(data=mydata)
+
+# pin the data to connect
+pin = pins.pin_rsconnect(
     data = df, 
     pin_name = "my_pin_7788", 
     pretty_pin_name = "Python Pin", 
     connect_server = connect_server, 
     api_key = api_key
 )
-pin_get_rsconnect(pin['content_url'])
+
+# retrieve the pinned data
+pins.pin_get_rsconnect(pin['content_url'], api_key = api_key)
 ```
 
 ## License

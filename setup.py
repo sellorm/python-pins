@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pins",
-    version="0.0.1",
+    version="0.0.3",
     author="Mark Sellors",
     author_email="python@5vcc.com",
     description="A simple python implementation of RStudio's pins package to work with RStudio Connect",
@@ -19,4 +19,7 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     python_requires='>=3.6',
+    install_requires=[
+        'requests',
+    ],
 )

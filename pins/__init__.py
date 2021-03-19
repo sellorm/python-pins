@@ -15,14 +15,14 @@ def pin_rsconnect(data, pin_name, pretty_pin_name, connect_server, api_key):
     Make a pin on RStudio Connect.
 
       Parameters:
-            data: any object that has a to_json method
-            pin_name (str): name of pin, only alphanumeric and underscores
-            pretty_pin_name (str): display name of pin
-            connect_server (str): RStudio Connect server address e.g. https://connect.example.com/
-            api_key (str): API key of a user on RStudio Connect
+        data: any object that has a to_json method (eg. pandas DataFrame)
+        pin_name (str): name of pin, only alphanumeric and underscores
+        pretty_pin_name (str): display name of pin
+        connect_server (str): RStudio Connect server address e.g. https://connect.example.com/
+        api_key (str): API key of a user on RStudio Connect
 
        Return:
-           Url of content
+         Url of content
 
     """
     # Save data
@@ -60,6 +60,8 @@ def pin_rsconnect(data, pin_name, pretty_pin_name, connect_server, api_key):
     with tarfile.open(tf.name, "w:gz") as tar:
         tar.add(local_dir.name, arcname=os.path.basename(local_dir.name))
 
+    auth = {"Authorization": "Key " + api_key}
+
     content = get_content(pin_name, pretty_pin_name, connect_server, auth)
     content_url = connect_server + "/__api__/v1/content/" + content["guid"]
 
@@ -89,15 +91,17 @@ def get_content(pin_name, pretty_pin_name, connect_server, auth):
         return content
 
 
-def pin_get_rsconnect(url):
+def pin_get_rsconnect(url, api_key):
     """
     Get data from a python pin on RStudio Connect
 
       Parameters:
         url (str) content solo URL on Connect (NOT dashboard URL)
+        api_key (str): API key of a user on RStudio Connect
 
       Returns:
         JSON version of pin
     """
+    auth = {"Authorization": "Key " + api_key}
     res = req.get(url + "/data.txt", headers=auth)
     return res.json()
