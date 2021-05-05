@@ -9,6 +9,13 @@ import tarfile
 import tempfile
 import requests as req
 
+try:
+    from importlib import metadata
+except ImportError:
+    # Running on pre-3.8 Python; use importlib-metadata package
+    import importlib_metadata as metadata
+
+__version__ = metadata.version('pins')
 
 def pin_rsconnect(data, pin_name, pretty_pin_name, connect_server, api_key):
     """
@@ -52,12 +59,12 @@ def pin_rsconnect(data, pin_name, pretty_pin_name, connect_server, api_key):
         "files": None,
         "users": None,
     }
-    with open(local_dir.name + "/manifest.json", "w") as m:
-        json.dump(manifest, m)
+    with open(local_dir.name + "/manifest.json", "w") as manifest_conn:
+        json.dump(manifest, manifest_conn)
 
     # Turn into tarfile
-    tf = tempfile.NamedTemporaryFile()
-    with tarfile.open(tf.name, "w:gz") as tar:
+    pins_tf = tempfile.NamedTemporaryFile()
+    with tarfile.open(pins_tf.name, "w:gz") as tar:
         tar.add(local_dir.name, arcname=os.path.basename(local_dir.name))
 
     auth = {"Authorization": "Key " + api_key}
@@ -66,8 +73,8 @@ def pin_rsconnect(data, pin_name, pretty_pin_name, connect_server, api_key):
     content_url = connect_server + "/__api__/v1/content/" + content["guid"]
 
     # Upload Bundle
-    with open(tf.name, "rb") as f:
-        bundle = req.post(content_url + "/bundles", headers=auth, data=f)
+    with open(pins_tf.name, "rb") as tf_conn:
+        bundle = req.post(content_url + "/bundles", headers=auth, data=tf_conn)
     bundle_id = bundle.json()["id"]
 
     # Deploy bundle
@@ -78,17 +85,19 @@ def pin_rsconnect(data, pin_name, pretty_pin_name, connect_server, api_key):
 
 
 def get_content(pin_name, pretty_pin_name, connect_server, auth):
+    """
+    Intermediate function to get content from Connect
+    """
     content = req.get(
         connect_server + "/__api__/v1/content", headers=auth, params={"name": pin_name}
     ).json()
     if content:  # content item created already
         return content[0]
-    else:  # New content item, create
-        data = {"access_type": "acl", "name": pin_name, "title": pretty_pin_name}
-        content = req.post(
-            connect_server + "/__api__/v1/content", headers=auth, json=data
-        ).json()
-        return content
+    data = {"access_type": "acl", "name": pin_name, "title": pretty_pin_name}
+    content = req.post(
+        connect_server + "/__api__/v1/content", headers=auth, json=data
+    ).json()
+    return content
 
 
 def pin_get_rsconnect(url, api_key):

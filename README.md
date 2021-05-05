@@ -2,7 +2,7 @@
 
 A simple package to pin and retrieve pinned data from RStudio Connect.
 
-Read more about pins on the [offical R implementations's website](https://pins.rstudio.com)
+Read more about pins on the [offical R implementation's website](https://pins.rstudio.com)
 
 This project is **not affiliated** with RStudio.
 
@@ -12,7 +12,7 @@ This project is **not affiliated** with RStudio.
 ### Make a pin on RStudio Connect.
 
 ```
-pin_rsconnect()
+pin_rsconnect(data, pin_name, pretty_pin_name, connect_server, api_key)
 ```
   
 Parameters:
@@ -31,12 +31,13 @@ Returns:
 ### Get data from a python pin on RStudio Connect
 
 ```
-pin_get_rsconnect(url):
+pin_get_rsconnect(url, api_key):
 ```
 
 Parameters:
 
 * url (str) content solo URL on Connect (NOT dashboard URL)
+* api_key (str): API key of a user on RStudio Connect
       
 Returns:
 
