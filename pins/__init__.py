@@ -15,7 +15,8 @@ except ImportError:
     # Running on pre-3.8 Python; use importlib-metadata package
     import importlib_metadata as metadata
 
-__version__ = metadata.version('pins')
+__version__ = metadata.version("pins")
+
 
 def pin_rsconnect(data, pin_name, pretty_pin_name, connect_server, api_key):
     """
