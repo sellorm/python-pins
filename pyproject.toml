@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "python-pins"
+version = "0.1.0"
+description = "A python implementation of the pins package."
+authors = ["Alex K Gold <alex.gold@rstudio.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+requests = "^2.25.1"
+python-dotenv = "^0.17.1"
+PyYAML = "^5.4.1"
+pandas = "^1.2.4"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
