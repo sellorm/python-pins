@@ -20,10 +20,33 @@ __version__ = metadata.version("pins")
 
 class Board:
     """
+    main board class
+    """
+
+    def __init__(self, name):
+        self.name = name
+
+    def pin_meta(self):
+        """
+        Read metadata from pin
+        """
+
+    def status(self):
+        """
+        display the status of the board
+        """
+        print("Board info:")
+        # print("* Name: {}".format(self.name))
+        print("* Type: {}".format(self.type))
+
+
+class BoardRsconnect(Board):
+    """
     Create a new pins board object
     """
 
     def __init__(self, connect_server, api_key):
+        self.type = "RStudio Connect"
         self.connect_server = connect_server
         self.api_key = api_key
         self.auth_header = {"Authorization": "Key " + api_key}
