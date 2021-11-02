@@ -31,7 +31,8 @@ For instance:
 
 ```
 >>> pins.pin_read("https://connect.example.com.rstudio.com/rsc", os.getenv("CONNECT_API_KEY"), "mark.sellors/palmer_penguins", meta_only=True)
-{'file': 'palmer_penguins.csv', 'file_size': '17299', 'pin_hash': '809e9def88e78114', 'type': 'csv', 'title': "'palmer_penguins: a pinned 344 x 8 data frame'", 'description': '~', 'created': '20211029T120018Z', 'api_version': '1.0'}```
+{'file': 'palmer_penguins.csv', 'file_size': '17299', 'pin_hash': '809e9def88e78114', 'type': 'csv', 'title': "'palmer_penguins: a pinned 344 x 8 data frame'", 'description': '~', 'created': '20211029T120018Z', 'api_version': '1.0'}
+```
 
 Here's a complete example:
 
