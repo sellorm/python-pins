@@ -64,7 +64,7 @@ def pin_rsconnect(data, pin_name, pretty_pin_name, connect_server, api_key):
         json.dump(manifest, manifest_conn)
 
     # Turn into tarfile
-    pins_tf = tempfile.NamedTemporaryFile()
+    pins_tf = tempfile.NamedTemporaryFile(delete=False)
     with tarfile.open(pins_tf.name, "w:gz") as tar:
         tar.add(local_dir.name, arcname=os.path.basename(local_dir.name))
 
