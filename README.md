@@ -18,13 +18,13 @@ The legacy API for this package is still available. See below for more details.
 import the appropriate sub-module.
 
 ```
-import pins.connect as pins
+import pins.connect as pc
 ```
 
 Then use the `pin_read()` function to read csv data pinned to Connect directly into a pandas dataframe.
 
 ```
-pins.pin_read("<CONNECT_SERVER_URL>", "<CONNECT_API_KEY>", "<USER_NAME/PIN_NAME>")
+pc.pin_read("<CONNECT_SERVER_URL>", "<CONNECT_API_KEY>", "<USER_NAME/PIN_NAME>")
 ```
 
 Alternatively, you can return a dict of the pin metadata, by using the `meta_only=True` parameter.
@@ -32,7 +32,7 @@ Alternatively, you can return a dict of the pin metadata, by using the `meta_onl
 For instance:
 
 ```
->>> pins.pin_read("https://connect.example.com.rstudio.com/rsc", 
+>>> pc.pin_read("https://connect.example.com.rstudio.com/rsc", 
 ... os.getenv("CONNECT_API_KEY"), 
 ... "mark.sellors/palmer_penguins",
 ... meta_only=True)
@@ -46,8 +46,8 @@ Here's a complete example:
 
 ```
 >>> import os
->>> import pins.connect as pins
->>> pins.pin_read("https://colorado.rstudio.com/rsc", 
+>>> import pins.connect as pc
+>>> pc.pin_read("https://colorado.rstudio.com/rsc", 
 ... os.getenv("COLORADO_API_KEY"), "mark.sellors/palmer_penguins")
        species     island  bill_length_mm  ...  body_mass_g     sex  year
 0       Adelie  Torgersen            39.1  ...       3750.0    male  2007
