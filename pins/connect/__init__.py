@@ -4,6 +4,7 @@ Read a pins v1 pinned data set from RStudio Connect
 
 import json
 import pandas
+import yaml
 import requests
 import tempfile
 
@@ -72,6 +73,7 @@ class SupportedTypeError(Exception):
         self.message = message
         super().__init__(self.message)
 
+
 class APIKeyNotValidError(Exception):
     """
     Throw an error if the api key doesn't work
@@ -98,6 +100,7 @@ def _is_connect_url(url):
     else:
         return False
 
+
 def _is_api_key_valid(server, api_key):
     """
     checks that the api key works
@@ -112,6 +115,7 @@ def _is_api_key_valid(server, api_key):
         return True
     else:
         return False
+
 
 def _get_user_guid(server, api_key, username):
     api_key_str = "key {}".format(api_key)
@@ -153,12 +157,7 @@ def _get_pin_meta(pin_url, api_key):
     headers = {"Authorization": api_key_str}
 
     api_pin_meta = requests.get("{}/data.txt".format(pin_url), headers=headers)
-    metadata_raw = api_pin_meta.text
-    metadata_lines = metadata_raw.splitlines()
-    metadata = dict(
-        (x.strip(), y.strip())
-        for x, y in (line.split(": ", 1) for line in metadata_lines)
-    )
+    metadata = yaml.safe_load(api_pin_meta.text)
     return metadata
 
 
@@ -169,7 +168,10 @@ def _pin_read(pin_url, api_key, metadata):
     api_key_str = "key {}".format(api_key)
     headers = {"Authorization": api_key_str}
 
-    if metadata["api_version"] != "1.0":
+    try:
+        if str(metadata["api_version"]) != "1.0":
+            raise VersionMismatchError
+    except KeyError:
         raise VersionMismatchError
 
     if metadata["type"] != "csv":
@@ -209,7 +211,6 @@ def pin_read(server, api_key, pin_name, meta_only=False):
         print(err)
         print("Error: you must supply the pin name in the username/pin_name format")
 
-
     user_guid = _get_user_guid(server, api_key, user)
 
     pin_url = _get_pin_url(server, api_key, user_guid, pin)
@@ -222,4 +223,3 @@ def pin_read(server, api_key, pin_name, meta_only=False):
     pin_data = _pin_read(pin_url, api_key, metadata)
 
     return pin_data
-
