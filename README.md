@@ -1,5 +1,11 @@
 # pins
 
+<!-- badges: start -->
+[![lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html)
+<!-- badges: end -->
+
+
 A simple package to pin and retrieve pinned data from RStudio Connect.
 
 Read more about pins on the [offical R implementation's website](https://pins.rstudio.com)
