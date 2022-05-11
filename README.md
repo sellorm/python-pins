@@ -5,6 +5,13 @@
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 <!-- badges: end -->
 
+# This project is now archived!
+
+No further development will take place.
+Please use the [official Python pins](https://github.com/rstudio/pins-python) from RStudio.
+
+—-
+
 
 A simple package to pin and retrieve pinned data from RStudio Connect.
 
